@@ -1,0 +1,97 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>BHS Pickup Sports</title>
+  <meta name="description" content="Pickup Sports">
+  <meta name="author" content="Andre assadi">
+  <link rel="stylesheet" href="styles_info.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.0/moment.min.js"></script>
+</head>
+
+<body>
+
+	<div class="main_header">
+		<button class="tablink" onclick="reRoute('/', 'GET')" id="defaultOpen">Home</button>
+		<button class="tablink" onclick="reRoute('/startpickup', 'GET')"> Start Pickup</button>
+		<% if (authenticated)  { %>
+			<button class="tablink" onclick="reRoute('/logout', 'GET')">Logout</button>
+		<% } else { %>
+			<button class="tablink" onclick="reRoute('/login', 'GET')">Login</button>
+		<% }%>
+		<button class="tablink" onclick="reRoute('/profile', 'GET')">Profile</button>
+	</div>
+
+	<div class="event_info"> 
+
+		<div id="first"> 
+			<div id="map"></div>
+		</div>
+
+		<div id="second"> 
+			<% console.log(event) %>
+			<h5 class="info_date" > <%= event.event_date %> </h5>
+			<h1 class="info_title"> <%= event.event_name %> </h3>
+			<h3 class="info_host"> By <%= " " + event.creator_name %> </h3>
+			<h4 class="info_attending">People Attending: <%= String(users.length) + "/" + event.max_attendance %></h3>
+		</div>
+
+		<div id="third"> 
+			<% if (joined == false && logged_in == true ) {%>
+				<button id="joinButton" class="join_button" onclick="reRoute('/attendEvent/' + '?event_id=<%= event._id %>','POST' )" > Join this event </button>
+			<% } else if (joined == true && logged_in == true) { %>
+				<button id="removeButton" class="join_button" onclick="reRoute('/removeEvent/' + '?event_id=<%= event._id %>' , 'POST' )" > Remove Event </button>
+			<% } else if (logged_in == false) {  %>
+				<button id="removeButton" class="join_button" onclick="alert('Please Login to access this feature')" >  Join this event</button>
+			<% } %>
+		</div>
+
+		<div id="fourth"> 
+			<% if (event.description != "") { %>
+				<h3 class="info_description"> Description </h3>
+				<p> <%= event.description %> </p>
+			<% } %>
+			<h3 class="info_peopleattendingtext"> Who's attending? </h3>
+			<table>
+			  <% for (var i = 0; i < users.length; i++) {%>
+				  <tr>
+				    <td><%= users[i] %></td>
+				  </tr>
+			  <%}%>
+
+			</table>
+		</div>
+
+		<%
+			var getFormattedTime = function (fourDigitTime){
+			    var hours24 = parseInt(fourDigitTime.substring(0,2));
+			    var hours = ((hours24 + 11) % 12) + 1;
+			    var amPm = hours24 > 11 ? 'pm' : 'am';
+			    var minutes = fourDigitTime.substring(2);
+
+			    return hours + minutes + amPm;
+			};
+
+			var time1 = getFormattedTime(event.start_time);
+			var time2 = getFormattedTime(event.end_time);
+		%>
+
+		<div id="fifth"> 
+			<h3 > Date and Time: </h3>
+			<p id="date1"> <%= event.event_date %> </p>
+			<p id="time1"> <%= time1 + '-' + time2%> </p>
+			<h3> Location: </h3>
+			<p id="address"> <%= event.location %>  </p>
+		</div>
+
+	</div>
+
+	<script src="info.js"> </script>
+	<script src="universal.js"> </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3wfjn_id2enZYcPnb-IOYfpvoKrJGwXM
+&callback=initMap">
+    </script>
+</body>
+</html>

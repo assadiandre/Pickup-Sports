@@ -1,0 +1,74 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>BHS Pickup Sports</title>
+  <meta name="description" content="Pickup Sports">
+  <meta name="author" content="Andre assadi">
+
+  <link rel="stylesheet" href="styles_start.css">
+
+</head>
+
+<body>
+	<div class="main_header">
+		<button class="tablink" onclick="reRoute('/', 'GET')" id="defaultOpen">Home</button>
+		<button class="tablink" onclick="reRoute('/startpickup', 'GET')"> Start Pickup</button>
+		<button class="tablink" onclick="reRoute('/logout', 'GET')">Logout</button>
+		<button class="tablink" onclick="reRoute('/profile', 'GET')">Profile</button>
+	</div>
+
+
+	<div class="fillForm">
+	  <h1> Start a Pickup Sport  </h1>
+	  <form action="/createPickup" method="POST">
+
+	  	<textarea type="text" id="invisible_name" name="creator_name"> <%= user.first_name + " " + user.last_name %></textarea>
+
+	    <label for="eName"> Event Name</label>
+	    <input type="text" id="eName" name="event_name" placeholder="Ex. Pickup Soccer 4v4" required>
+
+	    <label for="pickup_type">Pickup Type</label>
+	    <select id="pickup_type" name="pickup_type">
+	      <option value="Soccer">Soccer</option>
+	      <option value="Basketball">Basketball</option>
+	      <option value="Football">Football</option>
+	      <option value="Baseball">Baseball</option>
+	      <option value="Workout">Workout</option>
+	      <option value="Running">Running</option>
+	      <option value="Rugby">Rugby</option>
+	      <option value="Ultimate">Ultimate</option>
+	      <option value="Lacrosse">Lacrosse</option>
+	      <option value="Swimming">Swimming</option>
+	      <option value="Biking">Biking</option>
+	      <option value="Other">Other</option>
+	    </select>
+
+	    <label for="eDate">Event Date</label>
+	    <input type="date" id="eDate" name="event_date" placeholder="mm/dd/yyyy " required>
+
+	    <label for="start_time">Start Time</label>
+	    <input type="time" id="start_time" name="start_time" placeholder="Ex: 2:30PM" required>
+
+	    <label for="end_time">End Time</label>
+	    <input type="time" id="end_time" name="end_time" placeholder="Ex: 3:30PM" required>
+
+	    <label for="max_people"> Max Attendance </label>
+	    <input type="text" id="max_people" name="max_people" placeholder="Ex: 14" required>
+
+	    <label for="location"> Location </label>
+	    <input type="text" id="location" name="location" placeholder="Address" required>
+
+	    <label for="description"> Description </label>
+	    <textarea type="text" id="description" name="description"> </textarea>
+
+	    <input type="submit" value="Create Pickup">
+	  </form>
+	</div>
+
+	<script src="universal.js"> </script>
+
+</body>
+</html>

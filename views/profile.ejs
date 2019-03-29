@@ -1,0 +1,68 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>BHS Pickup Sports</title>
+  <meta name="description" content="Pickup Sports">
+  <meta name="author" content="Andre assadi">
+  <link rel="stylesheet" href="styles_profile.css">
+  <style>
+  	
+  </style>
+
+</head>
+
+<body >
+
+	<div class="main_header">
+		<button class="tablink" onclick="reRoute('/', 'GET')" id="defaultOpen">Home</button>
+		<button class="tablink" onclick="reRoute('/startpickup', 'GET')"> Start Pickup</button>
+		<button class="tablink" onclick="reRosute('/logout', 'GET')">Logout</button>
+		<button class="tablink" onclick="reRoute('/profile', 'GET')">Profile</button>
+	</div>
+
+	<h1> Profile </h1>
+
+	<div class="details">
+		<h3> Credentials </h3>
+		<p>  <%= "Name: " + user.first_name + " " + user.last_name %>  </p>
+		<p> <%= "Email: " + user.email   %> </p>
+	</div>
+	<div class="content"> 
+		<table>
+		  <tr>
+		    <th>Subscribed Events</th>
+		    <th>Remove</th>
+		  </tr>
+		  <% for (var i = 0; i< joined_events.length;i++) {%>
+		   <tr>
+		    <td> <%=joined_events[i].event_name %></td>
+		    <td> <button onclick="reRoute( '<%= "/removeSubscribedEvent?id=" + joined_events[i]._id %>' ,'POST' )"> Remove </button>  </td>
+		  </tr>
+		  <%}%>
+		</table>
+	</div>
+
+	<div class="content"> 
+		<table>
+		  <tr>
+		    <th>Hosted Events</th>
+		    <th>Delete</th>
+		  </tr>
+		  <% for (var i = 0; i< created_events.length;i++) {%>
+		   <tr>
+		    <td> <a onclick="reRoute( '<%= "/info?id=" + created_events[i]._id %>' ,'POST')"   > <%=created_events[i].event_name %> </a> </td>
+		    <td> <button onclick="reRoute( '<%= "/removeCreatedEvent?id=" + created_events[i]._id %>' ,'POST' )"> Delete </button></td>
+		  </tr>
+		  <%}%>
+		</table>
+	</div>
+
+
+
+	<script src="universal.js"> </script>
+
+</body>
+</html>

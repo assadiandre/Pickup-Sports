@@ -1,0 +1,95 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>BHS Pickup Sports</title>
+  <meta name="description" content="Pickup Sports">
+  <meta name="author" content="Andre assadi">
+  <link rel="stylesheet" href="styles_main.css">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+	<div class="main_header">
+		<button class="tablink" onclick="reRoute('/', 'GET')" id="defaultOpen">Home</button>
+		<button class="tablink" onclick="reRoute('/startpickup', 'GET')"> Start Pickup</button>
+
+		<% if (authenticated)  { %>
+			<button class="tablink" onclick="reRoute('/logout', 'GET')">Logout</button>
+		<% } else { %>
+			<button class="tablink" onclick="reRoute('/login', 'GET')">Login</button>
+		<% }%>
+
+
+		<button class="tablink" onclick="reRoute('/profile', 'GET')">Profile</button>
+	</div>
+	
+	<img class="pickup_icon" src="sports_icon.png" alt="Icon">
+
+	<div class="cards-wrapper">
+	<% for (var i = 0; i < pickupdata.length; i++) { %>
+		<% 
+			var sport_icon = "";
+			var sport_id = "";
+			if (pickupdata[i].pickup_type == "Soccer" || pickupdata[i].pickup_type == "Baseball" || pickupdata[i].pickup_type == "Basketball" || pickupdata[i].pickup_type == "Football" ){
+				sport_icon = pickupdata[i].pickup_type.toLowerCase() + ".png";
+				sport_id = pickupdata[i].pickup_type.toLowerCase()
+			}
+			else {
+				sport_icon = "flag.png"
+				sport_id = "flag"
+			}
+
+			var getFormattedTime = function (fourDigitTime){
+			    var hours24 = parseInt(fourDigitTime.substring(0,2));
+			    var hours = ((hours24 + 11) % 12) + 1;
+			    var amPm = hours24 > 11 ? 'pm' : 'am';
+			    var minutes = fourDigitTime.substring(2);
+
+			    return hours + minutes + amPm;
+			};
+
+			var start_time = getFormattedTime(pickupdata[i].start_time);
+			var end_time = getFormattedTime(pickupdata[i].end_time);
+		%>
+
+
+
+
+		<div onclick= "toInfo('<%= pickupdata[i]._id %>')" class="card">
+		   <div id="<%= sport_id %>" class="card-header">
+		      <img class="card-icon" src='<%= sport_icon %>' alt="soccer">
+		        <div class="card-title">
+		          <h1 id="title"> <%=pickupdata[i].event_name%></h1> 
+		      </div>
+		    </div>
+
+		    <div class="card-location">
+		       <i class="fa fa-map-marker" aria-hidden="true"></i>
+		       <p ><%=pickupdata[i].location%></p>
+		    </div>
+
+		    <div class="card-time">
+		       <i class="fa fa-bell" aria-hidden="true"></i>
+		       <p > <%= start_time + " - " + end_time   %> </p>
+		    </div>
+
+		    <div class="card-date">
+		       <i class="fa fa-calendar" aria-hidden="true"></i>
+		       <p > <%= pickupdata[i].event_date %> </p>
+		    </div>
+
+		</div>
+	<% } %>
+	</div>
+
+	<script src="universal.js"> </script>
+	<script src="main.js"> </script>
+
+</body>
+</html>
